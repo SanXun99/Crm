@@ -1,0 +1,235 @@
+<!-- 服务反馈 -->
+<div id="feedback">
+  <div>
+  <form class="form-inline">
+
+  <div class="form-group">
+	<select name="city" id="" class="form-control">
+		 <option value="">请选择服务类型</option>
+        <option value="0">咨询</option>
+        <option value="1">投诉</option>
+        <option value="2">建议</option>
+	</select>
+  </div>
+  <div class="form-group">
+	<select name="city" id="" class="form-control">
+		 <option value="">请选择服务状态</option>
+        <option value="0">处理中</option>
+        <option value="1">已处理</option>
+        <option value="2">已反馈</option>
+	</select>
+  </div>
+  <input class="btn btn-default search" type="button" value="查询">
+  <input class="btn btn-default" type="reset" value="重置">
+</form>
+</div>
+
+<div>
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		      <th>序号</th>
+		      <th>客户名称</th>
+		      <th>概要</th>
+		      <th>服务类型</th>
+		      <th>处理人</th>
+		      <th>状态</th>		
+			  <th>操作</th>
+		    </tr> 
+		  </thead>
+
+		  <tbody>
+		    <tr>
+		    
+		      <td>1</td>
+		      <td>张三</td>
+		      <td>这是概要,概要</td>
+		      <td>服务类型</td>
+		      <td>李四</td>
+		      <td class="zhuangtai">已处理</td>
+		      <td>
+		      	<i class="layui-icon layui-icon-circle-dot" title="点击进行服务反馈"></i>   
+		      </td>
+		    </tr> 
+		     <tr>
+		    
+		      <td>2</td>
+		      <td>张三</td>
+		      <td>这是概要,概要</td>
+		      <td>服务类型</td>
+		      <td>李四</td>
+		      <td class="zhuangtai">处理中</td>
+		      <td>
+		      	<i class="layui-icon layui-icon-circle-dot" title="点击进行服务反馈"></i>   
+		      </td>
+		    </tr> 
+		    <tr>
+		      <td>3</td>
+		       <td>张三</td>
+		      <td>这是概要,概要</td>
+		      <td>服务类型</td>
+		      <td>李四</td>
+		       <td class="zhuangtai">已反馈</td>
+		      <td>
+		      	<i class="layui-icon layui-icon-face-smile" title="已反馈"></i>   
+		      </td>
+		    </tr>     
+         </tbody>
+    </table>
+</div>
+<div class="fenye">
+	<nav aria-label="Page navigation">
+	  <ul class="pagination">
+	    <li>
+	      <a href="#" aria-label="Previous">
+	        <span aria-hidden="true">上一页</span>
+	      </a>
+	    </li>
+	    <li class="active"><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li>
+	      <a href="#" aria-label="Next">
+	        <span aria-hidden="true">下一页</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav>
+</div>
+<!-- 提示模态框 -->
+<div class="modal" id="tishi">
+  <div class="modal-dialog"  style="width:350px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">服务正在处理中,无法反馈</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 新增模态框 -->
+<div class="modal"  id="toAdd">
+  <div class="modal-dialog" style="height:400px;overflow:auto;">
+    <div class="modal-content">
+       <form>
+					<div class="modal-body">
+						
+						<div class="form-group">
+							<label>服务反馈意见:</label>
+							<input type="text" name="msName" class="form-control">
+						</div>
+						
+						<div class="form-group">
+							<label>客户满意度:</label>
+							<select name="city" id="" class="form-control">
+							<option value="">请选择客户满意度</option>
+					        <option value="0">一星</option>
+					        <option value="1">二星</option>
+					        <option value="2">三星</option>
+					        <option value="2">四星</option>
+					        <option value="2">五星</option>
+					        </select>
+						</div>
+						<div class="form-group">
+							<label>状态:</label>
+							<input type="text" name="msName" class="form-control" value="处理中" disabled>
+							<!-- <select name="city" id="" class="form-control">
+							<option value="">请选择状态</option>
+					        <option value="0">处理中</option>
+					        <option value="1">已处理</option>
+					        <option value="2">未处理</option>
+					        </select> -->
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+				    <button class="btn" style="background:#ccc">取消</button>
+					<button class="btn" style="background:#ccc">保存</button>
+				</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<style>
+#feedback{
+	width: 100%;
+	margin:10px;
+	overflow: hidden;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.pagination > li > a, .pagination > li > span {
+    color: black;
+}
+.fenye{
+	margin-left: 400px;
+}
+	.form-inline{
+		margin-top: 15px;
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	.search{
+		margin-left: 50px;
+	}
+	#add{
+		margin-left: 560px;
+	}
+	.table th,td{
+		text-align: center;
+	}
+	#tishi{
+		margin-top: 100px;
+	}
+	#toAdd{
+		margin-top: 50px;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		// 查询
+		$('.search').click(function(){
+			alert('查询')
+		})
+		// 点击新增显示模态框
+		$('.layui-icon-circle-dot').click(function(){
+			var status = $(this).closest('tr').find('.zhuangtai').text();
+			// var status = $('.zhuangtai').html();
+			console.log(status)
+			if(status=='已处理') {
+				$('#toAdd').show();
+			} else if(status=='处理中'){
+				$('#tishi').show();
+			}
+			
+		})
+		// 服务详细信息
+		$('.layui-icon-face-smile').click(function(){
+			$('.layui-body').load('./pages/serviceDetails.html');
+		})
+		// 关闭提示模态框
+		$('.close').click(function(){
+			$('#tishi').hide();
+		})
+		$('.btn-primary').click(function(){
+			$('#tishi').hide();
+		})
+		// 新增模态框关闭
+		$('button:contains(取消)').on('click',function(){
+			$('button[type=reset]').trigger('click');
+				$('#toAdd').hide();
+		})
+		// 新增模态框保存
+		$('button:contains(保存)').on('click',function(){
+				$('#toAdd').hide();
+		})	
+	})
+</script>

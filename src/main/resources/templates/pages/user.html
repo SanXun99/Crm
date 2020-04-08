@@ -1,0 +1,294 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 用户 -->
+<div id="user">
+  <div>
+  <form class="form-inline">
+  <div class="form-group">
+	<select name="city" id="" class="form-control">
+		 <option value="">请选择用户角色类型</option>
+		 <th:block th:each="role:${session.allRoles}">
+        <option th:value="${role.id}" th:text="${role.name}">管理员</option>
+        </th:block>
+	</select>
+  </div>
+  <input class="btn btn-default search" type="button" value="查询">
+  <input class="btn btn-default reset" type="reset" value="重置">
+  <input class="btn btn-default" type="button" value="新增" id="add">
+
+</form>
+</div>
+
+<div>
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		      <th>序号</th>
+		      <th>用户名</th>
+		      <th>角色名</th>
+		      <th>状态</th>	 
+			  <th>操作</th>
+		    </tr> 
+		  </thead>
+
+		  <tbody th:each="user:${session.users}">
+		    <tr>
+		      <td th:text="${user.id}">1</td>
+		      <td th:text="${user.name}">李四</td>
+		      <td th:text="${user.role.name}">高管</td>
+		      <td th:if="${user.flag == 1}">正常</td>
+		      <td th:if="${user.flag != 1}">注销</td>
+		      <td>
+		      	<i  class="layui-icon layui-icon-edit editUser" 
+		      		th:attr="id=${user.id},rId=${user.role.id}"></i>  
+		      	<i  class="layui-icon layui-icon-delete deleteUser" th:attr="id=${user.id}"></i>   
+		      </td>
+		    </tr> 
+		    
+         </tbody>
+    </table>
+</div>
+<div class="fenye">
+	<nav aria-label="Page navigation">
+	  <ul class="pagination">
+	    <li>
+	      <a href="#" aria-label="Previous" th:if="${session.users.hasPrevious()==false}">
+	        <span aria-hidden="true" style="color:#ABABAB">上一页</span>
+	      </a>
+	      
+	      <a href="#" aria-label="Previous" th:if="${session.users.hasPrevious()==true}"
+	      			th:onclick="|selectPage(${session.users.number-1})|">
+	        <span aria-hidden="true">上一页</span>
+	      </a>
+	    </li>
+	    <!-- class="active"表示变成灰色  -->
+	    <!-- #numbers.sequence(a,b) 循环遍历，从a开始，到b结束 -->
+	    <li th:each="num:${#numbers.sequence(1,session.users.totalPages)}" 
+	    	th:attr="class=(${session.users.number}==${num-1}?'active':'')">
+	    	<a href="#" th:text="${num}" th:onclick="|selectPage(${num-1})|">1</a></li>
+	    <li>
+	      <a href="#" aria-label="Next" th:if="${session.users.hasNext()==false}">
+	        <span aria-hidden="true" style="color:#ABABAB">下一页</span>
+	      </a>
+	      
+	      <a href="#" aria-label="Next" th:if="${session.users.hasNext()==true}"
+	      			th:onclick="|selectPage(${session.users.number+1})|">
+	        <span aria-hidden="true">下一页</span>
+	      </a>
+	    </li>
+	    
+	    <li>
+	    	<div align="center">
+	    		<span>当前:第<span th:text="${session.users.number+1}">1</span>页/共 
+	    		<span th:text="${session.users.totalPages}">3</span>页</span>
+	    	</div>
+	    </li>
+	    
+	  </ul>
+	</nav>
+</div>
+<!-- 删除模态框 -->
+<div class="modal" id="deleteModal">
+  <div class="modal-dialog"  style="width:350px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">是否确定删除</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default " data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 新增模态框 -->
+<div class="modal"  id="toAdd">
+  <div class="modal-dialog" style="height:400px;overflow:auto;">
+    <div class="modal-content">
+       <form id="add-form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>用户名:</label>
+							<input type="text" name="uName" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>密码:</label>
+							<input type="password" name="uPwd" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>角色:</label>
+							<select name="selectRole" id="" class="form-control">
+						            <option value="">请选择用户角色类型</option>
+							        <th:block th:each="role:${session.allRoles}">
+							        	<option th:value="${role.id}" 
+							        			th:text="${role.name}">角色</option>
+							        </th:block>					   
+							</select>
+						</div>
+						<div class="form-group">
+							<label>状态:</label>
+							<select name="uFlag" id="" class="form-control">
+						        <option value="1">正常</option>
+						        <option value="2">注销</option>						   
+							</select>
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+				    <button class="btn" style="background:#ccc">取消</button>
+					<button class="btn" style="background:#ccc">保存</button>
+				</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<style>
+#user{
+	width: 1140px;
+	overflow: hidden;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.pagination > li > a, .pagination > li > span {
+    color: black;
+}
+.fenye{
+	margin-left: 400px;
+}
+	.form-inline{
+		margin-top: 15px;
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	.search{
+		margin-left: 50px;
+	}
+	#add{
+		margin-left: 680px;
+	}
+	.table th,td{
+		text-align: center;
+	}
+	#deleteModal{
+		margin-top: 100px;
+	}
+	#toAdd{
+		margin-top: 50px;
+	}
+</style>
+<script type="text/javascript">
+	/* 分页触发的方法 */
+	function selectPage(num) {
+		$("#user").load("updateUserPage",{pageIndex:num});
+	}
+	$(function(){
+		//全局的id属性，用来表示当前修改和删除的对象id
+		var id;
+		
+		// 显示删除模态框
+		$('.deleteUser').click(function(){
+			id = $(this).attr("id");
+			$('#deleteModal').show();
+		})
+		// 关闭删除模态框
+		$('.close').click(function(){
+			$('#deleteModal').hide();
+		})
+		// 关闭删除模态框
+		$('.btn-default').click(function(){
+			$('#deleteModal').hide();
+		})
+		// 确定删除
+		$('.btn-primary').click(function(){
+			
+			$.ajax({
+				url:"user/"+id,
+				type:"delete",
+				success:function(data){
+					$('#deleteModal').hide();
+					alert(data);
+					$("#user").load("toUser");
+				}
+			});
+			
+		})
+		// 点击新增显示模态框
+		$('#add').click(function(){
+			//每次打开之前，先将弹出框数据清空
+			/* $("#toAdd input[name=uName]").val("");
+			$("#toAdd input[name=uPwd]").val("");
+			$("#toAdd select[name=selectRole]").val("");
+			$("#toAdd select[name=uFlag]").val("2"); */
+			id=null;
+			document.getElementById("add-form").reset();
+			$('#toAdd').show();
+		})
+		// 新增模态框关闭
+		$('button:contains(取消)').on('click',function(){
+			$('button[type=reset]').trigger('click');
+				$('#toAdd').hide();
+		})
+		// 新增模态框保存
+		$('button:contains(保存)').on('click',function(){
+				//获取所有的输入内容
+				var uName = $("#toAdd input[name=uName]").val();
+				var uPwd = $("#toAdd input[name=uPwd]").val();
+				var uRoleId = $("#toAdd select[name=selectRole] option:selected").attr("value");
+				var uFlag = $("#toAdd select[name=uFlag] option:selected").attr("value");
+				//alert(uName+"-"+uPwd+"-"+rId+"-"+uFlag);
+				//发送ajax请求，将前台输入的数据进行保存。
+				$.post("saveUser",{id:id,name:uName,password:uPwd,role:uRoleId,flag:uFlag},
+				function(data){
+					$('#toAdd').hide();
+					alert(data);
+					//重新触发 角色管理 的点击事件，以达到刷新页面的效果。
+					//.trigger("click") 触发 input 的点击事件
+					//$(".layui-nav-child dd:contains(角色管理)").trigger("click");
+					$("#user").load("toUser");
+				});
+				
+		})	
+		// 点击编辑显示模态框
+		$('.editUser').click(function(){
+			//获取点击的当前条目的用户id和角色id
+			id = $(this).attr("id");
+			var rId = $(this).attr("rId");
+			
+			//向后台发送请求，获取对应用户id的详细信息。
+			$.get("user/"+id,function(data){
+				$("#toAdd input[name=uName]").val(data.name);
+				$("#toAdd input[name=uPwd]").val(data.password);
+				$("#toAdd select[name=selectRole]").val(rId);
+				$("#toAdd select[name=uFlag]").val(data.flag);
+			})
+			
+			$('#toAdd').show();
+			
+		})
+		// 查询
+		$('.search').click(function(){
+			//alert('查询')
+			var roleId = $("select[name=city] option:selected").attr("value");
+			if($.trim(roleId)!= ""){
+				//向后台发送请求
+				$("#user").load("toUser",{roleId:roleId});
+				
+			}else{
+				alert("请选择要查询的角色类型");
+			}
+		})
+		
+		//重置
+		$(".reset").click(function(){
+			$.get("resetUser",function(data){
+				alert(data);
+				$("#user").load("toUser");
+			});
+		});
+		
+	})
+</script>
+</html>

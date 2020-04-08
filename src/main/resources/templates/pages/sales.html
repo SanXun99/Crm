@@ -1,0 +1,327 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 销售商机 -->
+<div id="sales">
+  <div>
+  <form class="form-inline">
+  <div class="form-group">
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="请输入客户名称">
+  </div>
+
+  <div class="form-group">
+	<select name="city" id="" class="form-control">
+		<option value="">请选择所属地区</option>
+        <option value="0">华中</option>
+        <option value="1">华北</option>
+        <option value="2">华南</option>
+        <option value="3">华东</option>
+	</select>
+  </div>
+  <input class="btn btn-default search" type="button" value="查询">
+  <input class="btn btn-default reset" type="reset" value="重置">
+  <input class="btn btn-default" type="button" value="新增" id="add">
+
+</form>
+</div>
+
+<div>
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		      <th>序号</th>
+		      <th>客户名称</th>
+		      <th>概要</th>
+		      <th>联系人</th>
+		      <th>联系电话</th>	
+		      <th>商机指派</th>		 
+			  <th>操作</th>
+		    </tr> 
+		  </thead>
+
+		  <tbody th:each="chance:${session.chances}">
+		    <tr>
+		      <td th:text="${chance.id}">1</td>
+		      <td th:text="${chance.customer}">李四</td>
+		      <td th:text="${chance.title}">这是概要,概要</td>
+		      <td th:text="${chance.linkman}">王五</td>
+		      <td th:text="${chance.phone}">1897456</td>
+		      <td th:text="${chance.handler.name}">指派啊</td>
+		      <td>
+		      	<i  class="layui-icon layui-icon-edit editUser" th:id="${chance.id}"
+		      		th:attr="hId=${chance.handler.id}"></i>  
+		      	<i  class="layui-icon layui-icon-delete deleteUser" th:id="${chance.id}"></i>   
+		      </td>
+		    </tr>     
+         </tbody>
+    </table>
+</div>
+<div class="fenye">
+	<nav aria-label="Page navigation">
+	  <ul class="pagination">
+	    <li>
+	      <a href="#" aria-label="Previous" th:if="${session.chances.hasPrevious()==false}">
+	        <span aria-hidden="true" style="color:#ABABAB">上一页</span>
+	      </a>
+	      
+	      <a href="#" aria-label="Previous" th:if="${session.chances.hasPrevious()==true}"
+	      			th:onclick="|selectPage(${session.chances.number-1})|">
+	        <span aria-hidden="true">上一页</span>
+	      </a>
+	    </li>
+	    <!-- #numbers.sequence(a,b) 循环遍历，从a开始，到b结束 -->
+	    <li th:each="num:${#numbers.sequence(1,session.chances.totalPages)}"
+	    	th:attr="class=(${session.chances.number}==${num-1}?'active':'')">
+	    <a href="#" th:text="${num}" th:onclick="|selectPage(${num-1})|">1</a>
+	    </li>
+	    
+	    <li>
+	      <a href="#" aria-label="Next" th:if="${session.chances.hasNext()==false}">
+	        <span aria-hidden="true" style="color:#ABABAB">下一页</span>
+	      </a>
+	      
+	      <a href="#" aria-label="Next" th:if="${session.chances.hasNext()==true}"
+	      			th:onclick="|selectPage(${session.chances.number+1})|">
+	        <span aria-hidden="true">下一页</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav>
+</div>
+<!-- 删除模态框 -->
+<div class="modal" id="deleteModal">
+  <div class="modal-dialog"  style="width:350px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">是否确定删除</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default " data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 新增模态框 -->
+<div class="modal"  id="toAdd">
+  <div class="modal-dialog" style="height:400px;overflow:auto;">
+    <div class="modal-content">
+       <form id="add-form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>商机来源:</label>
+							<input type="text" name="msource"  class="form-control">
+						</div>
+						<div class="form-group">
+							<label>客户名称:</label>
+							<input type="text" name="mcustomer" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>成功几率:</label>
+							<input type="text" name="mrate" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>商机概要:</label>
+							<input type="text" name="mtitle" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>所属地区:</label>
+							<select name="maddress" id="" class="form-control">
+								<option value="">请选择所属地区</option>
+						        <option value="0">华中</option>
+						        <option value="1">华北</option>
+						        <option value="2">华南</option>
+						        <option value="3">华东</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>联系人:</label>
+							<input type="text" name="mlinkman" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>联系电话:</label>
+							<input type="text" name="mphone" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>创建人:</label>
+							<input type="text" name="mcreator" class="form-control"
+								th:value="${session.user.name}" readonly="readonly">
+							<input type="hidden" name="mcreatorId" th:value="${session.user.id}">
+						</div>
+						<div class="form-group">
+							<label>处理人:</label>
+							<select name="mhandler" id="" class="form-control">
+								<option value="">请选择处理人</option>
+								<th:block th:each="jingli:${session.jinglis}">
+						        <option th:text="${jingli.name}"
+						        		th:value="${jingli.id}">经理</option>
+								</th:block>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>商机描述:</label>
+							<input type="textarea" name="mdescription" style="height:60px" class="form-control">
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+				    <button class="btn" style="background:#ccc">取消</button>
+					<button class="btn" style="background:#ccc">保存</button>
+				</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<style>
+#sales{
+	width: 1140px;
+	overflow: hidden;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.pagination > li > a, .pagination > li > span {
+    color: black;
+}
+.fenye{
+	margin-left: 400px;
+}
+	.form-inline{
+		margin-top: 15px;
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	.search{
+		margin-left: 50px;
+	}
+	#add{
+		margin-left: 560px;
+	}
+	.table th,td{
+		text-align: center;
+	}
+	#deleteModal{
+		margin-top: 100px;
+	}
+	#toAdd{
+		margin-top: 50px;
+	}
+</style>
+<script type="text/javascript">
+	/* 分页触发的方法 */
+	function selectPage(num) {
+		$("#sales").load("updateSalesPage",{pageIndex:num});
+	}
+	$(function(){
+		var id;
+		
+		// 显示删除模态框
+		$('.deleteUser').click(function(){
+			id = $(this).attr("id");
+			$('#deleteModal').show();
+		})
+		// 关闭删除模态框
+		$('.close').click(function(){
+			$('#deleteModal').hide();
+		})
+		// 关闭删除模态框
+		$('.btn-default').click(function(){
+			$('#deleteModal').hide();
+		})
+		// 确定删除
+		$('.btn-primary').click(function(){
+			//向后台发送ajax请求
+			$.post("sales/"+id,function(data){
+				$('#deleteModal').hide();
+				alert(data);
+				$("#sales").load("toSales");
+			});
+		})
+		// 点击新增显示模态框
+		$('#add').click(function(){
+			//form表单重置
+			id = null;
+			document.getElementById("add-form").reset();
+			$('#toAdd').show();
+		})
+		// 新增模态框关闭
+		$('button:contains(取消)').on('click',function(){
+			$('button[type=reset]').trigger('click');
+				$('#toAdd').hide();
+		})
+		// 新增模态框保存
+		$('button:contains(保存)').on('click',function(){
+			//获取新增弹出框中的所有内容
+			var msource = $("#toAdd input[name=msource]").val();
+			var mcustomer = $("#toAdd input[name=mcustomer]").val();
+			var mrate = $("#toAdd input[name=mrate]").val();
+			var mtitle = $("#toAdd input[name=mtitle]").val();
+			var maddress = $("#toAdd select[name=maddress] option:selected").val();
+			var mlinkman = $("#toAdd input[name=mlinkman]").val();
+			var mphone = $("#toAdd input[name=mphone]").val();
+			var mcreatorId = $("#toAdd input[name=mcreatorId]").val();
+			var mhandlerId = $("#toAdd select[name=mhandler] option:selected").val();
+			var mdescription = $("#toAdd input[name=mdescription]").val();
+			
+			//alert(msource+"-"+mcustomer+"-"+mrate+"-"+mtitle+"-"+maddress+"-"+mlinkman+"-"+mphone)
+			//alert(mcreatorId+"-"+mhandlerId+"-"+mdescription)
+			//发送请求，将数据传个后台
+			$.post("addSales",{
+				id:id,
+				source:msource,
+				customer:mcustomer,
+				rate:mrate,
+				title:mtitle,
+				address:maddress,
+				linkman:mlinkman,
+				phone:mphone,
+				creatorId:mcreatorId,
+				handlerId:mhandlerId,
+				description:mdescription,
+				status:"待处理"
+			},function(data){
+				alert(data);
+				$('#toAdd').hide();
+				$("#sales").load("toSales");
+			});
+		})	
+		// 点击编辑显示模态框
+		$('.editUser').click(function(){
+			id = $(this).attr("id");
+			hId=$(this).attr("hId");
+			//向后台发送请求，获取对应商机的详细信息。
+			$.get("sales/"+id,function(data){
+				$("#toAdd input[name=msource]").val(data.source);
+				$("#toAdd input[name=mcustomer]").val(data.customer);
+				$("#toAdd input[name=mrate]").val(data.rate);
+				$("#toAdd input[name=mtitle]").val(data.title);
+				$("#toAdd select[name=maddress]").val(data.address);
+				$("#toAdd input[name=mlinkman]").val(data.linkman);
+				$("#toAdd input[name=mphone]").val(data.phone);
+				$("#toAdd select[name=mhandler]").val(hId);
+				$("#toAdd input[name=mdescription]").val(data.description);
+			});
+			$('#toAdd').show();
+		})
+		// 查询
+		$('.search').click(function(){
+			var customer = $("#exampleInputEmail3").val();
+			var address = $("select[name=city] option:selected").val();
+			if($.trim(customer)!="" || $.trim(address)!=""){
+				$("#sales").load("toSales",{customer:customer,address:address});
+			}else{
+				alert("请输入要查询的客户名称或选择所属地区!");
+			}
+		})
+		
+		//重置
+		$(".reset").click(function(){
+			$.get("resetSales",function(data){
+				alert(data);
+				$("#sales").load("toSales");
+			});
+		});
+	})
+</script>
+</html>

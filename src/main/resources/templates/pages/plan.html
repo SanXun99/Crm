@@ -1,0 +1,150 @@
+<!-- 客户开发计划 -->
+<div id="plan">
+  <div>
+  <form class="form-inline">
+  <!-- <div class="form-group">
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="请输入客户名称">
+  </div> -->
+ <!--  <div class="form-group">
+    <input type="text" class="form-control" id="exampleInputPassword3" placeholder="请输入客户经理">
+  </div> -->
+  <div class="form-group">
+	<select name="city" id="" class="form-control">
+		 <option value="">请选择所属地区</option>
+        <option value="0">华中</option>
+        <option value="1">华北</option>
+        <option value="2">华南</option>
+        <option value="3">华东</option>
+	</select>
+  </div>
+  <!-- <div class="form-group">
+	<select name="lever" id="" class="form-control">
+		<option value="">请选择客户等级</option>
+        <option value="0">普通客户</option>
+        <option value="1">大客户</option>
+        <option value="2">重点开发客户</option>
+        <option value="3">合作伙伴</option>
+        <option value="4">战略合作伙伴</option>
+	</select>
+  </div> -->
+  <input class="btn btn-default search" type="button" value="查询">
+  <input class="btn btn-default" type="reset" value="重置">
+</form>
+</div>
+<div>
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		      <th>序号</th>
+		      <th>客户名称</th>
+		      <th>概要</th>
+		      <th>联系人</th>
+		      <th>联系电话</th>	
+		      <th>状态</th>		 
+			  <th>操作</th>
+		    </tr> 
+		  </thead>
+
+		  <tbody>
+		    <tr>
+		     <td>1</td>
+		      <td>王五</td>
+		      <td>这是个概要</td>
+		      <td>李四</td>
+		      <td>15864789213</td>
+		      <td>处理中</td>
+		      <td>
+		       <i  class="layui-icon layui-icon-loading"></i>
+		      </td>
+		    </tr> 
+		    <tr>
+		     <td>2</td>
+		      <td>王五</td>
+		      <td>这是个概要</td>
+		      <td>李四</td>
+		      <td>15864789213</td>
+		      <td>处理中</td>
+		      <td>
+		      	<i  class="layui-icon layui-icon-fonts-code"></i>     
+		      </td>
+		    </tr>  
+		    <tr>
+		      <td>3</td>
+		      <td>王五</td>
+		      <td>这是个概要</td>
+		      <td>李四</td>
+		      <td>15864789213</td>
+		      <td>处理中</td>
+		      <td>
+		      	<i  class="layui-icon layui-icon-face-smile"></i>   
+		      </td>
+		    </tr>     
+         </tbody>
+    </table>
+</div>
+<div class="fenye">
+	<nav aria-label="Page navigation">
+	  <ul class="pagination">
+	    <li>
+	      <a href="#" aria-label="Previous">
+	        <span aria-hidden="true">上一页</span>
+	      </a>
+	    </li>
+	    <li class="active"><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li>
+	      <a href="#" aria-label="Next">
+	        <span aria-hidden="true">下一页</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav>
+</div>
+</div>
+<style>
+#plan{
+	width: 1140px;
+	overflow: hidden;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.pagination > li > a, .pagination > li > span {
+    color: black;
+}
+.fenye{
+	margin-left: 400px;
+}
+	.form-inline{
+		margin-top: 15px;
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	.search{
+		margin-left: 50px;
+	}
+	.table th,td{
+		text-align: center;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		// 查询
+		$('.search').click(function(){
+			alert('查询')
+		})
+		$('.layui-icon-loading').click(function(){
+			$('.layui-body').load('./pages/plan_add.html');  
+		})
+		$('.layui-icon-fonts-code').click(function(){
+			$('.layui-body').load('./pages/plan_edit.html');  
+		})
+		$('.layui-icon-face-smile').click(function(){
+			$('.layui-body').load('./pages/plan_detail.html');  
+		})
+	})
+</script>

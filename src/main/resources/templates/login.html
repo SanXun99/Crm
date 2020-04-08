@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>登录</title>
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords"
+	content="Client Login Form,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements" />
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css'>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script>
+	$(function(){
+    	//当body中回车按钮按下的时候，触发提交事件
+    	$("body").keydown(function(event){
+    		if(event.keyCode == 13){
+    			//keyCode如果为13，则表示用户按了回车。
+    			$(".submit").click();
+    		}
+    	});
+    	//当登录按钮点击的时候，提交事件
+    	$(".submit").on("click",function(){
+    		var name1 = $("input[type=text]").val();
+    		var password1 = $("input[type=password]").val();
+    		if(name1 == ""){
+    			//用户名不能为空
+    			alert("用户名不能为空")
+    		} else if(password1 == ""){
+    			//密码不能为空
+    			alert("密码不能为空");
+    		} else{
+    			$.post("user/login",{name:name1,password:password1},function(data){
+    				//从后台获取登录之后的状态信息，控制前台页面跳转。
+    				if(data == "success"){
+    					window.location.href="index";
+    				}else{
+    					alert(data);
+    				}
+    			});
+    		}
+    		
+     	});
+	});
+</script>
+
+</head>
+<body>
+
+	<div class="shadow-forms">
+		<div class="message warning">
+			<div class="login-head">
+				<h2>登录</h2>
+			</div>
+			<div class="sub-head"></div>
+			<form>
+				<input type="text" class="text" name="name" placeholder="请输入用户名">
+				<!-- autocomplete="off" 表示不自动提示之前输入的内容 -->
+				<input type="password" name="password" placeholder="请输入密码" autocomplete="off">
+				<div class="p-container">
+					<div class="clear"></div>
+				</div>
+				<div class="submit">
+					<input type="button" value="登录"></a>
+				</div>
+
+			</form>
+
+		</div>
+
+		<div class="clear"></div>
+	</div>
+
+	<!--- footer -->
+	<div class="footer">
+		<p>Copyright 2011-2018 杰普软件科技有限公司 ICP 05024518 | 营业执照</p>
+	</div>
+</body>
+
+</html>

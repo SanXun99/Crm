@@ -1,0 +1,127 @@
+<div id="plan_detail">
+  <div class="foot">
+ 	<form>
+			<div class="form-group">
+				<label>商机详情:</label>
+			</div>
+		</form>
+</div>
+
+<div style="margin-bottom: 50px;margin-top: -30px;">
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		       <th>商机来源</th>
+
+		      <th>成功几率</th>
+		      
+
+		      <th>商机指派</th>		 
+			  <th>所属地区</th>
+
+			  <th>创建人</th>
+
+			  <th>商机描述</th>
+		    </tr> 
+		  </thead>
+
+		  <tbody>
+		    <tr>
+		     <td>商机来源</td>
+		      <td>0.6</td>
+		      <td>去哪</td>
+		      <td>华中</td>
+		      <td>李四</td>
+		      <td>描述,描述,描述</td>
+		    </tr> 
+         </tbody>
+    </table>
+</div>
+ <div class="foot">
+ 	<form>
+			<div class="form-group">
+				<label>开发计划:</label>
+			</div>
+		</form>
+</div>
+<div class="kaifa" style="margin-bottom: 50px;margin-top: -30px;height:200px;overflow:auto;">
+	<table class="table table-hover">
+		 <thead>
+		    <tr style="background:#E8E8E8;">
+		      <th>序号</th>
+		      <th>计划内容</th>
+		       <th>计划结果</th>
+		       
+		    </tr> 
+		  </thead>
+		  <tbody>
+		    <tr>
+		     <td>1</td>
+		      <td>内容,这是内容,很长</td>
+		      <td>已处理完</td>
+		     
+		    </tr> 
+		    <tr>
+		     <td>1</td>
+		      <td>内容,这是内容,很长</td>
+		      <td>已处理完</td>
+		     
+		    </tr> 
+         </tbody>
+    </table>
+</div>
+	<div class="foot">
+		<form>
+			<div class="form-group">
+			<input class="btn btn-default back" type="button" value="返回" id="add">
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+#plan_detail{
+	width: 1140px;
+	overflow: hidden;
+}
+	.kaifa tr td:first-child,th:first-child{
+		width: 100px;
+	}
+	.foot{
+		/*margin-top: 150px;*/
+		padding: 10px;
+	}
+	.foot label{
+		font-size: 18px;
+	}
+	.form-inline{
+		margin-top: 15px;
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	input[type=submit]{
+		margin-left: 50px;
+	}
+	#add{
+		margin-left:550px;
+		width: 100px;
+	}
+	.table {
+		margin-top: 10px;
+	}
+	.table th,td{
+		text-align: center;
+	}
+	#deleteModal{
+		margin-top: 100px;
+	}
+	#toAdd{
+		margin-top: 50px;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){		
+		$('.back').on('click',function(){
+		 $('.layui-body').load('./pages/plan.html');  
+		})
+	})
+</script>
